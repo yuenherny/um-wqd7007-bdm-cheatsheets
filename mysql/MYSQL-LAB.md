@@ -1,33 +1,52 @@
 # Setting up MySQL using Ubuntu CLI
 
 ## Install and start service
+Install MySQL server:
 ```
 $ sudo apt-get install mysql-server
 ```
-
+Run MySQL server and check its status to make sure that it is active:
 ```
 $ systemctl start mysql
 $ systemctl status mysql
 ```
 
 ## Launch MySQL
-
+Get into MySQL terminal by:
 ```
 $ /usr/bin/mysql -u root -p
 ```
-
-or set the path to MySQL executable as environment variable
+NOTE: If you want to use only `mysql` to invoke, set the path to MySQL executable as environment variable:
 ```
 $ nano .bashrc
 ```
-in `.bashrc`, append `:` and then `/usr/bin`. Colon is used to separate different path variables:
+then in `.bashrc`, append `:` and then `/usr/bin`. Colon is used to separate different path variables:
 ```
 export PATH=$PATH:/usr/bin
 ```
 then you can do:
 ```
-$ sudo mysql
+$ mysql -u root -p
 ```
+
+## Configure
+In MySQL, check which authentication method your MySQL user accounts use:
+```
+mysql> select user,authentication_string,plugin,host from mysql.user;
+```
+You will see that the authentication string for `root` user is empty. Update by:
+```
+mysql> alter user 'root'@'localhost' identified with mysql_native_password by 'password';
+```
+Then reload to put changes into effect:
+```
+mysql> flush privileges;
+```
+Check again:
+```
+mysql> select user,authentication_string,plugin,host from mysql.user;
+```
+You will see that a string exits under authentication string of `root` user.
 
 ## Create a table
 In MySQL, create a database:
@@ -48,7 +67,17 @@ then exit by typing `exit` and enter.
 **NOTE: READ UP ON THE INTEGERS IN NUMERIC AND VARCHAR**
 
 ## Load data into a table
-Download the CSV file that you want to load and keep it in Downloads folder, then:
+Before you do so, you need to change the permissions. Go into SQL and:
+```
+mysql> show global variables like 'local_infile';
+```
+if it is OFF, then turn on with:
+```
+mysql> set global local_infile=1;
+```
+and then exit.
+
+Then, download the CSV file that you want to load and keep it in Downloads folder, then:
 ```
 mysql -u root -p --local_infile=1 mysql -e "load data local infile '~/Downloads/churn_reduced.csv' into table wqd7007.churn fields terminated by ',' ignore 1 lines"
 ```
