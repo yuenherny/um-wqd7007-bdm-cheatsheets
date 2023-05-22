@@ -45,6 +45,9 @@ mysql> create table churn (customerID varchar(20),
 ```
 then exit by typing `exit` and enter.
 
+**NOTE: READ UP ON THE INTEGERS IN NUMERIC AND VARCHAR**
+
+## Load data into a table
 Download the CSV file that you want to load and keep it in Downloads folder, then:
 ```
 mysql -u root -p --local_infile=1 mysql -e "load data local infile '~/Downloads/churn_reduced.csv' into table wqd7007.churn fields terminated by ',' ignore 1 lines"
@@ -56,4 +59,3 @@ Check by logging in again and do `SELECT`:
 mysql> use wqd7007;
 mysql> select * from churn;
 ```
-
