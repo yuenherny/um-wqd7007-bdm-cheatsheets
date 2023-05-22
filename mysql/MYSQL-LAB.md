@@ -46,7 +46,7 @@ Check again:
 ```
 mysql> select user,authentication_string,plugin,host from mysql.user;
 ```
-You will see that a string exits under authentication string of `root` user.
+You will see that a string exits under authentication string of `root` user. See this [SO thread](https://stackoverflow.com/questions/16556497/mysql-how-to-reset-or-change-the-mysql-root-password) for more info.
 
 ## Create a table
 In MySQL, create a database:
@@ -75,7 +75,7 @@ if it is OFF, then turn on with:
 ```
 mysql> set global local_infile=1;
 ```
-and then exit.
+and then exit. See this [SO thread](https://stackoverflow.com/questions/59993844/error-loading-local-data-is-disabled-this-must-be-enabled-on-both-the-client) for more info.
 
 Then, download the CSV file that you want to load and keep it in Downloads folder, then:
 ```
