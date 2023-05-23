@@ -1,7 +1,7 @@
 # Setting up Sqoop using Ubuntu CLI
 
 ## Install
-Download Sqoop:
+Download Sqoop 1.4.7:
 ```
 $ wget https://archive.apache.org/dist/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
 ```
@@ -16,7 +16,7 @@ $ mv sqoop-1.4.7.bin__hadoop-2.6.0 /home/bdm/sqoop
 Open `.bashrc` with nano and update the path variables:
 ```
 export SQOOP_HOME=/home/bdm/sqoop
-export PATH=$PATH:/usr/bin:$SQOOP_HOME/bin
+export PATH=$PATH:/usr/bin:$HADOOP_HOME/bin:$SQOOP_HOME/bin
 ```
 Run `.bashrc` so that it is reflected:
 ```

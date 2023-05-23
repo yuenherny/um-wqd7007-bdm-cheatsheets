@@ -1,7 +1,7 @@
 # Setting up Hive using Ubuntu CLI
 
 ## Install
-Download Hive:
+Download Hive 1.2.2:
 ```
 $ wget https://downloads.apache.org/hive/hive-1.2.2/apache-hive-1.2.2-bin.tar.gz
 ```
@@ -16,7 +16,7 @@ $ mv apache-hive-1.2.2-bin /home/bdm/hive/
 Open `.bashrc` with nano and update the path variables:
 ```
 export HIVE_HOME=/home/bdm/hive
-export PATH=$PATH:/usr/bin:$SQOOP_HOME/bin:$HIVE_HOME/bin
+export PATH=$PATH:/usr/bin:$SQOOP_HOME/bin:$HBASE_HOME/bin:$HIVE_HOME/bin
 ```
 Run `.bashrc` so that it is reflected:
 ```
