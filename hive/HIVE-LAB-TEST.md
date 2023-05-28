@@ -3,15 +3,56 @@
 ## Part 1
 
 ### 1. Download a dataset and import the downloaded dataset to HDFS.
-
+1. Upload the dataset to GitHub repo.
+2. Download the dataset in terminal. Make sure it is a raw file.
+    ```
+    $ wget https://raw.githubusercontent.com/yuenherny/um-wqd7007-bdm-cheatsheets/main/dataset/Set9.csv
+    ```
+3. Import the dataset to HDFS.
+    ```
+    $ hadoop fs -put Set9.csv /user/student/
+    ```
+4. Check if the import is success.
+    ```
+    $ hadoop fs -ls /user/student
+    ```
 
 ### 2. By using Hive or Pig, identify 10 rows of data that...
+1. Launch Hive
+    ```
+    $ hive
+    ```
+2. Check for existing databases and tables, and make sure you are using the correct database.
+    ```
+    hive> show databases;
+    hive> show tables;
+    ```
+3. Create a table with desired schema.
+    ```
+    hive> create table if not exists set9 (id int, gender string, race string, parent_edu string, lunch string, test_prep string, math_score int, reading_score int, writing_score int) comment 'set9 dataset' row format delimited fields terminated by ',' stored as textfile location '/user/hive/warehouse';
+    ```
+4. Set the table to ignore first row which is dataset header.
+    ```
+    hive> alter table set9 set tblproperties("skip.header.line.count"="1");
+    ```
+5. Import the data into Hive table.
+    ```
+    hive> load data inpath '/user/hdfs/lab_test/Set9.csv' into table set9;
+    ```
+6. Check the table.
+    ```
+    hive> select * from set9 limit 5;
+    ```
 
 #### a. completed the test preparation course with the highest math score.
-
+```
+hive> select * from set9 where test_prep == 'completed' order by math_score desc limit 10;
+```
 
 #### b. The master’s degree with the lowest writing score.
-
+```
+hive> select * from set9 where parent_edu == "master's degree" order by writing_score limit 10;
+```
 
 ## Part 2
 
