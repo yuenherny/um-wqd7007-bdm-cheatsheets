@@ -57,13 +57,44 @@ hive> select * from set9 where parent_edu == "master's degree" order by writing_
 ## Part 2
 
 ### 1. Import text from here (https://www.gutenberg.org/cache/epub/1513/pg1513.txt) to HDFS.
-
+1. Download the dataset.
+    ```
+    $ wget https://www.gutenberg.org/cache/epub/1513/pg1513.txt
+    ```
+2. import the text file into HDFS.
+    ```
+    $ hadoop fs -put pg1513.txt /user/hdfs/lab_test/
+    ```
 
 ### 2. Run a word count program using Hadoop MapReduce concept to count the word occurrence of the imported text as in step 1. Save the results in HDFS.
-
-
+1. Run wordcount:
+    ```
+    $ hadoop jar /home/student/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.7.jar wordcount hdfs://localhost:9000/user/hdfs/lab_test/pg1513.txt hdfs://localhost:9000/user/hdfs/output
+    ```
+2. Check the result
+    ```
+    $ hadoop fs -cat /user/hdfs/output/*
+    ```
 ### 3. Import the result from step 2 to Hive or Pig. Display...
+1. Create Hive table.
+    ```
+    hive> create table if not exists wc (word string, wordcount int) row format delimited fields terminated by '\t' stored as textfile location '/user/hive/warehouse';
+
+    ```
+2. Load data into Hive table.
+    ```
+    hive> load data inpath '/user/hdfs/output/part-r-00000' into table wc;
+    ```
+3. Check if the table is loaded properly.
+    ```
+    hive> select * from wc limit 5;
+    ```
 
 #### a. 5 words with 10 counts in descending alphabetical order.
-
+```
+hive> select * from wc where wordcount == 10 order by word desc limit 5;
+```
 #### b. 10 words with highest counts in ascending alphabetical order.
+```
+hive> select * from wc order by wordcount desc limit 10;
+```
